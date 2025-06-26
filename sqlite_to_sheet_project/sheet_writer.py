@@ -1,5 +1,5 @@
 import logging
-from config import MONTH_SHEET_TITLE
+from sqlite_to_sheet_project.config import MONTH_SHEET_TITLE
 
 def get_or_create_monthly_sheet(gc, spreadsheet_name):
     spreadsheet = gc.open(spreadsheet_name)
