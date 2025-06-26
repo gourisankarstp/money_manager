@@ -1,0 +1,7 @@
+2025-06-26 12:50:54 [INFO] Function started.
+2025-06-26 12:51:00 [INFO] Download progress: 100%
+2025-06-26 12:51:00 [INFO] Downloaded file saved temporarily at 'C:\Users\gouri\AppData\Local\Temp\tmpyy8balci.mmbak'.
+2025-06-26 12:51:00 [INFO] Processed 99 valid transactions.
+2025-06-26 12:51:03 [INFO] Found existing worksheet: Jun-2025
+2025-06-26 12:51:04 [INFO] Data written to Google Sheet.
+2025-06-26 12:51:04 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpyy8balci.mmbak removed after processing.
