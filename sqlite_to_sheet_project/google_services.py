@@ -4,7 +4,7 @@ from googleapiclient.http import MediaIoBaseDownload
 import io
 import logging
 import tempfile
-from config import SERVICE_ACCOUNT_FILE, SCOPES, DB_FILE
+from sqlite_to_sheet_project.config import SERVICE_ACCOUNT_FILE, SCOPES, DB_FILE
 
 def get_drive_and_creds():
     creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
