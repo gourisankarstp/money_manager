@@ -2,11 +2,11 @@ import logging
 import gspread
 import os
 
-from logger_setup import setup_logger
-from config import DB_FILE, SPREADSHEET_NAME
-from google_services import get_drive_and_creds, download_latest_sqlite_file
-from data_extraction import extract_transactions_from_sqlite
-from sheet_writer import get_or_create_monthly_sheet
+from sqlite_to_sheet_project.logger_setup import setup_logger
+from sqlite_to_sheet_project.config import DB_FILE, SPREADSHEET_NAME
+from sqlite_to_sheet_project.google_services import get_drive_and_creds, download_latest_sqlite_file
+from sqlite_to_sheet_project.data_extraction import extract_transactions_from_sqlite
+from sqlite_to_sheet_project.sheet_writer import get_or_create_monthly_sheet
 
 def main(request=None):
     setup_logger()

@@ -1,5 +1,5 @@
 import logging
-from config import LOG_FILE_PATH
+from sqlite_to_sheet_project.config import LOG_FILE_PATH
 
 def setup_logger():
     logging.basicConfig(

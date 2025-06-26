@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 import logging
-from filters import filter_transactions_for_month
+from sqlite_to_sheet_project.filters import filter_transactions_for_month
 
 def extract_transactions_from_sqlite(db_path):
     try:

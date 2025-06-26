@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime, timedelta
-from config import target_year, target_month
+from sqlite_to_sheet_project.config import target_year, target_month
 
 def filter_transactions_for_month(df, date_column="ZDATE"):
     
