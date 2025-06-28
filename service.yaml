@@ -1,0 +1,21 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: expense-processor
+  namespace: test-project-463904
+spec:
+  template:
+    spec:
+      containers:
+        - image: asia-south1-docker.pkg.dev/test-project-463904/cloud-run-source-deploy/expense-processor
+          volumeMounts:
+            - name: service-account-volume
+              mountPath: /secrets
+              readOnly: true
+      volumes:
+        - name: service-account-volume
+          secret:
+            secretName: my-service-account-json
+            items:
+              - key: latest
+                path: service_account.json

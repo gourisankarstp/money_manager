@@ -2,7 +2,7 @@ from datetime import datetime
 
 LOG_FILE_PATH = 'process_log.log'
 DB_FILE = 'temp.mmbak'
-SERVICE_ACCOUNT_FILE = "/app/service_account.json"
+SERVICE_ACCOUNT_FILE = "/secrets/service_account.json"
 SPREADSHEET_NAME = "Expense Plan"
 
 # For automatic recent data
