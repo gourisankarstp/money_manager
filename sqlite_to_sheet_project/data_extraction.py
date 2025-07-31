@@ -3,7 +3,7 @@ import pandas as pd
 import logging
 from sqlite_to_sheet_project.filters import filter_transactions_for_month
 
-def extract_transactions_from_sqlite(db_path):
+def extract_transactions_from_sqlite(db_path,previous_month=False):
     try:
         conn = sqlite3.connect(db_path)
 
@@ -25,7 +25,7 @@ def extract_transactions_from_sqlite(db_path):
             logging.warning("No valid transactions found.")
             return None
 
-        df = filter_transactions_for_month(df, date_column="ZDATE")
+        df = filter_transactions_for_month(df, date_column="ZDATE",previous_month=previous_month)
 
         def map_category(ctgUid):
             category = category_dict.get(ctgUid, "Unknown")

@@ -8,7 +8,7 @@ from sqlite_to_sheet_project.google_services import get_drive_and_creds, downloa
 from sqlite_to_sheet_project.data_extraction import extract_transactions_from_sqlite
 from sqlite_to_sheet_project.sheet_writer import get_or_create_monthly_sheet
 
-def main(request=None):
+def main(request=None,previous=False):
     setup_logger()
     logging.info("Function started.")
 
@@ -18,7 +18,7 @@ def main(request=None):
         if not file_path:
             return "No matching SQLite files found.", 404
 
-        df = extract_transactions_from_sqlite(file_path)
+        df = extract_transactions_from_sqlite(file_path,previous_month=previous)
         if df is None or df.empty:
             return "No valid transaction data found.", 204
 

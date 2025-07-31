@@ -9,6 +9,10 @@ def handler():
     result, status = main(request)
     return result, status
 
+@app.route('/previous', methods=['GET'])
+def prev_handler():
+    result, status = main(request,previous=True)
+    return result, status
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
