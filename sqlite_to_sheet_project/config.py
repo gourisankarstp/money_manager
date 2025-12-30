@@ -3,7 +3,7 @@ from datetime import datetime
 LOG_FILE_PATH = 'process_log.log'
 DB_FILE = 'temp.mmbak'
 SERVICE_ACCOUNT_FILE = "/secrets/service_account.json"
-SPREADSHEET_NAME = "Expense Plan"
+SPREADSHEET_NAME = "Expenses Datasheet"
 
 # For automatic recent data
 # Set both to None if you want current month automatically
