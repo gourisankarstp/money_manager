@@ -23,7 +23,7 @@ def main(request=None,previous=False):
             return "No valid transaction data found.", 204
 
         gc = gspread.authorize(creds)
-        sheet = get_or_create_monthly_sheet(gc, SPREADSHEET_NAME)
+        sheet = get_or_create_monthly_sheet(gc, SPREADSHEET_NAME,previous)
 
         sheet.clear()
         sheet.append_rows([df.columns.tolist()] + df.values.tolist())

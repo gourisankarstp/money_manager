@@ -1,13 +1,33 @@
+import os
+
+import google.auth
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 import io
 import logging
 import tempfile
-from sqlite_to_sheet_project.config import SERVICE_ACCOUNT_FILE, SCOPES, DB_FILE
+from sqlite_to_sheet_project.config import (
+    MOUNTED_SERVICE_ACCOUNT_FILE,
+    LOCAL_SERVICE_ACCOUNT_FILE,
+    SCOPES,
+    SERVICE_ACCOUNT_FILE,
+)
 
 def get_drive_and_creds():
-    creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    credential_file = SERVICE_ACCOUNT_FILE
+    if credential_file is None and os.path.isfile(MOUNTED_SERVICE_ACCOUNT_FILE):
+        credential_file = MOUNTED_SERVICE_ACCOUNT_FILE
+    if credential_file is None and os.path.isfile(LOCAL_SERVICE_ACCOUNT_FILE):
+        credential_file = LOCAL_SERVICE_ACCOUNT_FILE
+
+    if credential_file:
+        creds = Credentials.from_service_account_file(credential_file, scopes=SCOPES)
+    else:
+        # Uses the Cloud Run service account in production and the local ADC
+        # configured by `gcloud auth application-default login` during development.
+        creds, _ = google.auth.default(scopes=SCOPES)
+
     drive_service = build('drive', 'v3', credentials=creds, cache_discovery=False)
 
     return creds, drive_service

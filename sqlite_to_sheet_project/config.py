@@ -1,8 +1,17 @@
+import os
 from datetime import datetime
+from pathlib import Path
 
 LOG_FILE_PATH = 'process_log.log'
 DB_FILE = 'temp.mmbak'
-SERVICE_ACCOUNT_FILE = "/secrets/service_account.json"
+# Optional explicit service-account key.  In Cloud Run, the secret may be
+# mounted at /secrets/service_account.json; locally, leave this unset and use
+# Application Default Credentials (``gcloud auth application-default login``).
+SERVICE_ACCOUNT_FILE = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+MOUNTED_SERVICE_ACCOUNT_FILE = "/secrets/service_account.json"
+LOCAL_SERVICE_ACCOUNT_FILE = str(
+    Path(__file__).resolve().parent.parent / "service_account.json"
+)
 SPREADSHEET_NAME = "Expenses Datasheet"
 
 # For automatic recent data

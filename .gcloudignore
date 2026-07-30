@@ -1,0 +1,13 @@
+# Never upload credentials, local data, or development artefacts to Cloud Build.
+.git
+.gitignore
+.dockerignore
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.log
+*.mmbak
+service_account.json
+expense_preview_top_5.csv
+account_preview_top_5.csv
+database_schema.json
