@@ -23,6 +23,7 @@ def filter_transactions_for_month(df, date_column="ZDATE",previous_month=False):
     df[date_column] = pd.to_numeric(df[date_column], errors='coerce')
 
     filtered_df = df[(df[date_column] >= start_ts) & (df[date_column] <= end_ts)].copy()
+    filtered_df.sort_values(by=date_column, ascending=True, inplace=True)
 
     filtered_df[date_column] = (
         pd.to_datetime(filtered_df[date_column], unit='ms')
