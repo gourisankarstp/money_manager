@@ -11,3 +11,4 @@ service_account.json
 expense_preview_top_5.csv
 account_preview_top_5.csv
 database_schema.json
+readSQliteManually.py

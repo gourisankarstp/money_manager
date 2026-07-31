@@ -32,23 +32,78 @@ def get_drive_and_creds():
 
     return creds, drive_service
 
-def download_latest_sqlite_file(drive_service):
-    results = drive_service.files().list(
-        q="name contains 'MMAuto'",
-        fields="files(id, name, createdTime)",
-        orderBy="createdTime desc",
-        pageSize=1
-    ).execute()
+# def download_latest_sqlite_file(drive_service):
+#     results = drive_service.files().list(
+#         q="name contains 'MMAuto'",
+#         fields="files(id, name, createdTime)",
+#         orderBy="createdTime desc",
+#         pageSize=1
+#     ).execute()
 
-    files = results.get('files', [])
-    if not files:
+#     files = results.get('files', [])
+#     if not files:
+#         logging.warning("No matching SQLite files found.")
+#         return None
+
+#     file = files[0]
+#     request_drive = drive_service.files().get_media(fileId=file['id'])
+#     fh = io.BytesIO()
+#     downloader = MediaIoBaseDownload(fh, request_drive)
+
+#     done = False
+#     while not done:
+#         status, done = downloader.next_chunk()
+#         logging.info(f"Download progress: {int(status.progress() * 100)}%")
+
+#     fh.seek(0)
+#     # === Use NamedTemporaryFile ===
+#     with tempfile.NamedTemporaryFile(delete=False, suffix=".mmbak") as temp_file:
+#         temp_file.write(fh.read())
+#         temp_file.flush()
+#         temp_file_path = temp_file.name  # Save the path for use outside the block
+
+#     logging.info(f"Downloaded file saved temporarily at '{temp_file_path}'.")
+#     return temp_file_path
+def download_latest_sqlite_file(drive_service):
+    def get_latest_file(name_pattern):
+        results = drive_service.files().list(
+            q=f"name contains '{name_pattern}' and trashed=false",
+            fields="files(id, name, createdTime)",
+            orderBy="createdTime desc",
+            pageSize=1
+        ).execute()
+
+        files = results.get("files", [])
+        return files[0] if files else None
+
+    latest_mmauto = get_latest_file("MMAuto")
+    latest_mmgf = get_latest_file("MMGF")
+
+    if latest_mmgf and latest_mmauto:
+        if latest_mmgf["createdTime"] >= latest_mmauto["createdTime"]:
+            selected_file = latest_mmgf
+        else:
+            selected_file = latest_mmauto
+
+    elif latest_mmgf:
+        selected_file = latest_mmgf
+
+    elif latest_mmauto:
+        selected_file = latest_mmauto
+
+    else:
         logging.warning("No matching SQLite files found.")
         return None
 
-    file = files[0]
-    request_drive = drive_service.files().get_media(fileId=file['id'])
+    logging.info(
+        f"Selected backup: {selected_file['name']} "
+        f"(created: {selected_file['createdTime']})"
+    )
+
+    request = drive_service.files().get_media(fileId=selected_file["id"])
+
     fh = io.BytesIO()
-    downloader = MediaIoBaseDownload(fh, request_drive)
+    downloader = MediaIoBaseDownload(fh, request)
 
     done = False
     while not done:
@@ -56,11 +111,14 @@ def download_latest_sqlite_file(drive_service):
         logging.info(f"Download progress: {int(status.progress() * 100)}%")
 
     fh.seek(0)
-    # === Use NamedTemporaryFile ===
+
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mmbak") as temp_file:
         temp_file.write(fh.read())
         temp_file.flush()
-        temp_file_path = temp_file.name  # Save the path for use outside the block
+        temp_file_path = temp_file.name
 
-    logging.info(f"Downloaded file saved temporarily at '{temp_file_path}'.")
+    logging.info(
+        f"Downloaded '{selected_file['name']}' to '{temp_file_path}'."
+    )
+
     return temp_file_path
