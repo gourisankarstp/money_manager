@@ -10,16 +10,27 @@ def extract_transactions_from_sqlite(db_path,previous_month=False):
 
         zcategory_df = pd.read_sql("SELECT uid, pUid, NAME FROM ZCATEGORY", conn)
         assets_df = pd.read_sql("SELECT ID, uid, NIC_NAME FROM ASSETS", conn)
+        # Money Manager uses two asset identifier schemes.
+        #
+        # Older databases reference ASSETS.ID.
+        # Newer databases reference ASSETS.uid.
+        #
+        # ID and uid can contain the same values (e.g. ID=11 and uid=11 for different
+        # accounts), so they must NEVER be stored in the same lookup dictionary.
+        asset_id_dict = {}
+        asset_uid_dict = {}
 
-        account_dict = {}
         for _, row in assets_df.iterrows():
             account_name = row["NIC_NAME"]
+
             if pd.isna(account_name) or not str(account_name).strip():
                 continue
-            # Older records use ASSETS.ID while newer records use ASSETS.uid.
-            for account_id in (row["ID"], row["uid"]):
-                if not pd.isna(account_id):
-                    account_dict[str(account_id)] = account_name
+
+            if pd.notna(row["ID"]):
+                asset_id_dict[str(row["ID"])] = account_name
+
+            if pd.notna(row["uid"]):
+                asset_uid_dict[str(row["uid"])] = account_name
 
         category_dict = {}
         subcategory_dict = {}
@@ -59,12 +70,22 @@ def extract_transactions_from_sqlite(db_path,previous_month=False):
         df["Transaction Type"] = df["DO_TYPE"].apply(lambda x: "In" if int(x) == 0 else "Out")
 
         def map_account(row):
-            account_name = account_dict.get(str(row["assetUid"]))
+            asset_key = str(row["assetUid"])
+
+            # Prefer uid lookup
+            account_name = asset_uid_dict.get(asset_key)
+
+            # Fall back to ID lookup for older databases
+            if account_name is None:
+                account_name = asset_id_dict.get(asset_key)
+
             if account_name:
                 return account_name
+
             fallback_name = row["ASSET_NIC"]
             if pd.notna(fallback_name) and str(fallback_name).strip():
                 return fallback_name
+
             return "Unknown"
 
         df["Account"] = df.apply(map_account, axis=1)
