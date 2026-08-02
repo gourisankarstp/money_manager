@@ -1,0 +1,1000 @@
+2026-08-02 11:24:48 [INFO] Function started.
+2026-08-02 11:24:52 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:24:53 [INFO] Download progress: 100%
+2026-08-02 11:24:54 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp4cn3d577.mmbak'.
+2026-08-02 11:24:54 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: ASSET_NIC
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 34, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 28, in extract_transactions_from_sqlite
+    asset_uid_dict = get_asset_uid_dict(conn)
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\lookup.py", line 15, in get_asset_uid_dict
+    df = pd.read_sql_query(
+        ACCOUNTS_QUERY,
+        conn,
+    )
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        sql,
+        ^^^^
+    ...<6 lines>...
+        dtype_backend=dtype_backend,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+SELECT
+    uid,
+    ASSET_NIC,
+    ASSET_NAME,
+    ASSET_CATE
+FROM ASSETS
+ORDER BY ASSET_NIC;
+': no such column: ASSET_NIC
+2026-08-02 11:24:54 [INFO] 127.0.0.1 - - [02/Aug/2026 11:24:54] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 11:35:57 [INFO] Function started.
+2026-08-02 11:36:00 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:36:04 [INFO] Download progress: 100%
+2026-08-02 11:36:04 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp5v8jn9jj.mmbak'.
+2026-08-02 11:36:04 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "pandas/_libs/tslibs/parsing.pyx", line 684, in pandas._libs.tslibs.parsing.dateutil_parse
+OverflowError: Python int too large to convert to C int
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 34, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 32, in extract_transactions_from_sqlite
+    expense_df = extract_expenses(
+        conn,
+        asset_uid_dict,
+        category_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\expenses.py", line 13, in extract_expenses
+    return transform_transactions(
+        df,
+        asset_uid_dict=asset_uid_dict,
+        category_uid_dict=category_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\transactions.py", line 38, in transform_transactions
+    df = format_dates(df)
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\dates.py", line 10, in format_dates
+    df["Date"] = pd.to_datetime(df["Date"])
+                 ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\tools\datetimes.py", line 1068, in to_datetime
+    cache_array = _maybe_cache(arg, format, cache, convert_listlike)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\tools\datetimes.py", line 249, in _maybe_cache
+    cache_dates = convert_listlike(unique_dates, format)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\tools\datetimes.py", line 437, in _convert_listlike_datetimes
+    result, tz_parsed = objects_to_datetime64(
+                        ~~~~~~~~~~~~~~~~~~~~~^
+        arg,
+        ^^^^
+    ...<4 lines>...
+        allow_object=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\arrays\datetimes.py", line 2415, in objects_to_datetime64
+    result, tz_parsed = tslib.array_to_datetime(
+                        ~~~~~~~~~~~~~~~~~~~~~~~^
+        data,
+        ^^^^^
+    ...<4 lines>...
+        creso=abbrev_to_npy_unit(out_unit),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "pandas/_libs/tslib.pyx", line 412, in pandas._libs.tslib.array_to_datetime
+  File "pandas/_libs/tslib.pyx", line 596, in pandas._libs.tslib.array_to_datetime
+  File "pandas/_libs/tslib.pyx", line 553, in pandas._libs.tslib.array_to_datetime
+  File "pandas/_libs/tslibs/conversion.pyx", line 641, in pandas._libs.tslibs.conversion.convert_str_to_tsobject
+  File "pandas/_libs/tslibs/parsing.pyx", line 336, in pandas._libs.tslibs.parsing.parse_datetime_string
+  File "pandas/_libs/tslibs/parsing.pyx", line 692, in pandas._libs.tslibs.parsing.dateutil_parse
+pandas._libs.tslibs.np_datetime.OutOfBoundsDatetime: Parsing "1725333042342" to datetime overflows, at position 0
+2026-08-02 11:36:04 [INFO] 127.0.0.1 - - [02/Aug/2026 11:36:04] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 11:39:27 [INFO] Function started.
+2026-08-02 11:39:29 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:39:31 [INFO] Download progress: 100%
+2026-08-02 11:39:31 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpyms_8n57.mmbak'.
+2026-08-02 11:39:32 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'ZDATE'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 34, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 56, in extract_transactions_from_sqlite
+    transaction_df = filter_transactions(
+        transaction_df,
+        previous_month=previous_month,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\filters.py", line 52, in filter_transactions
+    df[date_column] = pd.to_numeric(df[date_column], errors="coerce")
+                                    ~~^^^^^^^^^^^^^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\frame.py", line 4113, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'ZDATE'
+2026-08-02 11:39:32 [INFO] 127.0.0.1 - - [02/Aug/2026 11:39:32] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 11:44:41 [INFO] Function started.
+2026-08-02 11:44:44 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:44:45 [INFO] Download progress: 100%
+2026-08-02 11:44:45 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpjxvhal7a.mmbak'.
+2026-08-02 11:44:49 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 11:44:50 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 11:44:52 [INFO] Data written to Google Sheet.
+2026-08-02 11:44:52 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpjxvhal7a.mmbak removed after processing.
+2026-08-02 11:44:52 [INFO] 127.0.0.1 - - [02/Aug/2026 11:44:52] "GET / HTTP/1.1" 200 -
+2026-08-02 11:47:03 [INFO] Function started.
+2026-08-02 11:47:05 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:47:07 [INFO] Download progress: 100%
+2026-08-02 11:47:07 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp3kqi5hqo.mmbak'.
+2026-08-02 11:47:10 [INFO] Found existing worksheet: Jul-2026
+2026-08-02 11:47:11 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 11:47:13 [INFO] Data written to Google Sheet.
+2026-08-02 11:47:13 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp3kqi5hqo.mmbak removed after processing.
+2026-08-02 11:47:13 [INFO] 127.0.0.1 - - [02/Aug/2026 11:47:13] "GET /previous HTTP/1.1" 200 -
+2026-08-02 11:48:40 [INFO] Function started.
+2026-08-02 11:48:42 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:48:44 [INFO] Download progress: 100%
+2026-08-02 11:48:44 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp5v_6zppm.mmbak'.
+2026-08-02 11:48:48 [INFO] Found existing worksheet: Jul-2026
+2026-08-02 11:48:48 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 11:48:50 [INFO] Data written to Google Sheet.
+2026-08-02 11:48:50 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp5v_6zppm.mmbak removed after processing.
+2026-08-02 11:48:50 [INFO] 127.0.0.1 - - [02/Aug/2026 11:48:50] "GET /previous HTTP/1.1" 200 -
+2026-08-02 11:52:54 [INFO] Function started.
+2026-08-02 11:52:56 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:52:58 [INFO] Download progress: 100%
+2026-08-02 11:52:58 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpjcpdbj46.mmbak'.
+2026-08-02 11:53:01 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 11:53:02 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 11:53:04 [INFO] Data written to Google Sheet.
+2026-08-02 11:53:04 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpjcpdbj46.mmbak removed after processing.
+2026-08-02 11:53:04 [INFO] 127.0.0.1 - - [02/Aug/2026 11:53:04] "GET / HTTP/1.1" 200 -
+2026-08-02 11:53:27 [INFO] Function started.
+2026-08-02 11:53:30 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 11:53:31 [INFO] Download progress: 100%
+2026-08-02 11:53:31 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpvhk3n2vn.mmbak'.
+2026-08-02 11:53:35 [INFO] Found existing worksheet: Jul-2026
+2026-08-02 11:53:35 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 11:53:37 [INFO] Data written to Google Sheet.
+2026-08-02 11:53:37 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpvhk3n2vn.mmbak removed after processing.
+2026-08-02 11:53:37 [INFO] 127.0.0.1 - - [02/Aug/2026 11:53:37] "GET /previous HTTP/1.1" 200 -
+2026-08-02 12:13:47 [INFO] Function started.
+2026-08-02 12:13:50 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 12:13:52 [INFO] Download progress: 100%
+2026-08-02 12:13:52 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpydqizvbw.mmbak'.
+2026-08-02 12:13:55 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:13:56 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:13:58 [INFO] Data written to Google Sheet.
+2026-08-02 12:13:58 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpydqizvbw.mmbak removed after processing.
+2026-08-02 12:13:58 [INFO] 127.0.0.1 - - [02/Aug/2026 12:13:58] "GET / HTTP/1.1" 200 -
+2026-08-02 12:16:44 [INFO] Function started.
+2026-08-02 12:16:47 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 12:16:49 [INFO] Download progress: 100%
+2026-08-02 12:16:49 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp4t9d1z9b.mmbak'.
+2026-08-02 12:16:52 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:16:53 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:16:54 [INFO] Data written to Google Sheet.
+2026-08-02 12:16:54 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp4t9d1z9b.mmbak removed after processing.
+2026-08-02 12:16:54 [INFO] 127.0.0.1 - - [02/Aug/2026 12:16:54] "GET / HTTP/1.1" 200 -
+2026-08-02 12:20:36 [INFO] Function started.
+2026-08-02 12:20:38 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 12:20:40 [INFO] Download progress: 100%
+2026-08-02 12:20:40 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpjhqmigz9.mmbak'.
+2026-08-02 12:20:43 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:20:43 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:20:46 [INFO] Data written to Google Sheet.
+2026-08-02 12:20:46 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpjhqmigz9.mmbak removed after processing.
+2026-08-02 12:20:46 [INFO] 127.0.0.1 - - [02/Aug/2026 12:20:46] "GET / HTTP/1.1" 200 -
+2026-08-02 12:24:12 [INFO] Function started.
+2026-08-02 12:24:14 [INFO] Selected backup: MMGF(02-08-26-091245).mmbak (created: 2026-08-02T03:42:48.206Z)
+2026-08-02 12:24:16 [INFO] Download progress: 100%
+2026-08-02 12:24:16 [INFO] Downloaded 'MMGF(02-08-26-091245).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp0n2j5d35.mmbak'.
+2026-08-02 12:24:20 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:24:20 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:24:22 [INFO] Data written to Google Sheet.
+2026-08-02 12:24:22 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp0n2j5d35.mmbak removed after processing.
+2026-08-02 12:24:22 [INFO] 127.0.0.1 - - [02/Aug/2026 12:24:22] "GET / HTTP/1.1" 200 -
+2026-08-02 12:24:52 [INFO] Function started.
+2026-08-02 12:24:55 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 12:24:56 [INFO] Download progress: 100%
+2026-08-02 12:24:56 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp2zansbpw.mmbak'.
+2026-08-02 12:24:59 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:25:00 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:25:01 [INFO] Data written to Google Sheet.
+2026-08-02 12:25:01 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp2zansbpw.mmbak removed after processing.
+2026-08-02 12:25:01 [INFO] 127.0.0.1 - - [02/Aug/2026 12:25:01] "GET / HTTP/1.1" 200 -
+2026-08-02 12:29:31 [INFO] Function started.
+2026-08-02 12:29:34 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 12:29:35 [INFO] Download progress: 100%
+2026-08-02 12:29:35 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp5_v_9lii.mmbak'.
+2026-08-02 12:29:39 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:29:39 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:29:42 [INFO] Data written to Google Sheet.
+2026-08-02 12:29:42 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp5_v_9lii.mmbak removed after processing.
+2026-08-02 12:29:42 [INFO] 127.0.0.1 - - [02/Aug/2026 12:29:42] "GET / HTTP/1.1" 200 -
+2026-08-02 12:48:05 [INFO] Function started.
+2026-08-02 12:48:07 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 12:48:09 [INFO] Download progress: 100%
+2026-08-02 12:48:09 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpms96qhjt.mmbak'.
+2026-08-02 12:48:09 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'From Account'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 42, in main
+    transaction_df = merge_transactions(
+            transaction_df,
+            transfer_df
+        )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\mergers\transactions.py", line 17, in merge_transactions
+    transfer_df["Account"] = transfer_df["From Account"]
+                             ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\frame.py", line 4113, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'From Account'
+2026-08-02 12:48:09 [INFO] 127.0.0.1 - - [02/Aug/2026 12:48:09] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 12:52:29 [INFO] Function started.
+2026-08-02 12:52:32 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 12:52:34 [INFO] Download progress: 100%
+2026-08-02 12:52:34 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp5lzbhmkz.mmbak'.
+2026-08-02 12:52:38 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:52:38 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:52:42 [INFO] Data written to Google Sheet.
+2026-08-02 12:52:42 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp5lzbhmkz.mmbak removed after processing.
+2026-08-02 12:52:42 [INFO] 127.0.0.1 - - [02/Aug/2026 12:52:42] "GET / HTTP/1.1" 200 -
+2026-08-02 12:54:04 [INFO] Function started.
+2026-08-02 12:54:07 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 12:54:09 [INFO] Download progress: 100%
+2026-08-02 12:54:09 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp92dbfacg.mmbak'.
+2026-08-02 12:54:12 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 12:54:13 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 12:54:14 [INFO] Data written to Google Sheet.
+2026-08-02 12:54:14 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp92dbfacg.mmbak removed after processing.
+2026-08-02 12:54:14 [INFO] 127.0.0.1 - - [02/Aug/2026 12:54:14] "GET / HTTP/1.1" 200 -
+2026-08-02 14:45:49 [INFO] Function started.
+2026-08-02 14:45:52 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 14:46:00 [INFO] Download progress: 100%
+2026-08-02 14:46:00 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpfxdzi3dc.mmbak'.
+2026-08-02 14:46:00 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 45, in extract_transactions_from_sqlite
+    transfer_df = extract_transfers(
+        conn,
+        asset_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\transfers.py", line 13, in extract_transfers
+    return transform_transfers(
+        df,
+        asset_uid_dict=asset_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\transactions.py", line 67, in transform_transfers
+    df = reorder_transfer_columns(df)
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\columns.py", line 78, in reorder_transfer_columns
+    columns = _get_columns(
+        TRANSFER_COLUMNS,
+        "transfer",
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\columns.py", line 52, in _get_columns
+    column_name = EXPORT_MAPPING[key].get(f"{source_type}_column")
+                  ~~~~~~~~~~~~~~^^^^^
+KeyError: 'from_account'
+2026-08-02 14:46:00 [INFO] 127.0.0.1 - - [02/Aug/2026 14:46:00] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 15:21:00 [INFO] Function started.
+2026-08-02 15:21:04 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 15:21:07 [INFO] Download progress: 100%
+2026-08-02 15:21:07 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpk33419wr.mmbak'.
+2026-08-02 15:21:07 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 45, in extract_transactions_from_sqlite
+    transfer_df = extract_transfers(
+        conn,
+        asset_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\transfers.py", line 13, in extract_transfers
+    return transform_transfers(
+        df,
+        asset_uid_dict=asset_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\transactions.py", line 67, in transform_transfers
+    df = reorder_transfer_columns(df)
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\columns.py", line 78, in reorder_transfer_columns
+    columns = _get_columns(
+        TRANSFER_COLUMNS,
+        "transfer",
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\transformers\columns.py", line 52, in _get_columns
+    column_name = EXPORT_MAPPING[key].get(f"{source_type}_column")
+                  ~~~~~~~~~~~~~~^^^^^
+KeyError: 'from_account'
+2026-08-02 15:21:07 [INFO] 127.0.0.1 - - [02/Aug/2026 15:21:07] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 15:22:49 [INFO] Function started.
+2026-08-02 15:22:54 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 15:22:56 [INFO] Download progress: 100%
+2026-08-02 15:22:56 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpjbv3e3j5.mmbak'.
+2026-08-02 15:22:56 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'Date'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 57, in extract_transactions_from_sqlite
+    transaction_df = filter_transactions(
+        transaction_df,
+        previous_month=previous_month,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\filters.py", line 52, in filter_transactions
+    df[date_column] = pd.to_numeric(df[date_column], errors="coerce")
+                                    ~~^^^^^^^^^^^^^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\frame.py", line 4113, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'Date'
+2026-08-02 15:22:56 [INFO] 127.0.0.1 - - [02/Aug/2026 15:22:56] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 15:27:31 [INFO] Function started.
+2026-08-02 15:27:36 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 15:27:40 [INFO] Download progress: 100%
+2026-08-02 15:27:40 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpp1tqjcag.mmbak'.
+2026-08-02 15:27:45 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 15:27:47 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 15:27:53 [INFO] Data written to Google Sheet.
+2026-08-02 15:27:53 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpp1tqjcag.mmbak removed after processing.
+2026-08-02 15:27:53 [INFO] 127.0.0.1 - - [02/Aug/2026 15:27:53] "GET / HTTP/1.1" 200 -
+2026-08-02 15:32:54 [INFO] Function started.
+2026-08-02 15:32:57 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 15:32:58 [INFO] Download progress: 100%
+2026-08-02 15:32:58 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp_2b0qkir.mmbak'.
+2026-08-02 15:33:03 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 15:33:03 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 15:33:05 [INFO] Data written to Google Sheet.
+2026-08-02 15:33:05 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp_2b0qkir.mmbak removed after processing.
+2026-08-02 15:33:05 [INFO] 127.0.0.1 - - [02/Aug/2026 15:33:05] "GET / HTTP/1.1" 200 -
+2026-08-02 16:24:47 [INFO] Function started.
+2026-08-02 16:24:50 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:24:53 [INFO] Download progress: 100%
+2026-08-02 16:24:53 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpulwk1owl.mmbak'.
+2026-08-02 16:24:53 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: CATEGORY
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 33, in extract_transactions_from_sqlite
+    expense_df = extract_expenses(
+        conn,
+        asset_uid_dict,
+        category_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\expenses.py", line 11, in extract_expenses
+    df = pd.read_sql_query(EXPENSE_QUERY, conn)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        sql,
+        ^^^^
+    ...<6 lines>...
+        dtype_backend=dtype_backend,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+        SELECT
+        A.NIC_NAME AS "Account",
+    C.CATEGORY AS "Category",
+    C.SUBCATEGORY AS "Subcategory",
+    I.DO_TYPE AS "Transaction Type",
+    I.ZCONTENT AS "Description",
+    I.ZDATE AS "Date",
+    I.ZMONEY AS "Amount",
+    I.ZDATA AS "Note",
+    I.txUidTrans AS "Transaction ID"
+        FROM INOUTCOME I
+    
+
+LEFT JOIN ASSETS A
+    ON I.assetUid
+    = A.uid
+
+
+LEFT JOIN CATEGORY C
+    ON I.ctgUid
+    = C.uid
+
+WHERE
+    
+I.DO_TYPE = 1
+AND I.NIC_NAME IS NULL
+
+ORDER BY I.ZDATE;': no such table: CATEGORY
+2026-08-02 16:24:53 [INFO] 127.0.0.1 - - [02/Aug/2026 16:24:53] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 16:25:06 [INFO] Function started.
+2026-08-02 16:25:09 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:25:11 [INFO] Download progress: 100%
+2026-08-02 16:25:11 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp2ra6hmfb.mmbak'.
+2026-08-02 16:25:11 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: CATEGORY
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 33, in extract_transactions_from_sqlite
+    expense_df = extract_expenses(
+        conn,
+        asset_uid_dict,
+        category_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\expenses.py", line 11, in extract_expenses
+    df = pd.read_sql_query(EXPENSE_QUERY, conn)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        sql,
+        ^^^^
+    ...<6 lines>...
+        dtype_backend=dtype_backend,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+        SELECT
+        A.NIC_NAME AS "Account",
+    C.CATEGORY AS "Category",
+    C.SUBCATEGORY AS "Subcategory",
+    I.DO_TYPE AS "Transaction Type",
+    I.ZCONTENT AS "Description",
+    I.ZDATE AS "Date",
+    I.ZMONEY AS "Amount",
+    I.ZDATA AS "Note",
+    I.txUidTrans AS "Transaction ID"
+        FROM INOUTCOME I
+    
+
+LEFT JOIN ASSETS A
+    ON I.assetUid
+    = A.uid
+
+
+LEFT JOIN CATEGORY C
+    ON I.ctgUid
+    = C.uid
+
+WHERE
+    
+I.DO_TYPE = 1
+AND I.NIC_NAME IS NULL
+
+ORDER BY I.ZDATE;': no such table: CATEGORY
+2026-08-02 16:25:11 [INFO] 127.0.0.1 - - [02/Aug/2026 16:25:11] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 16:28:52 [INFO] Function started.
+2026-08-02 16:28:55 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:28:57 [INFO] Download progress: 100%
+2026-08-02 16:28:57 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpx069sdui.mmbak'.
+2026-08-02 16:28:57 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: P.NAME
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 33, in extract_transactions_from_sqlite
+    expense_df = extract_expenses(
+        conn,
+        asset_uid_dict,
+        category_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\expenses.py", line 11, in extract_expenses
+    df = pd.read_sql_query(EXPENSE_QUERY, conn)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        sql,
+        ^^^^
+    ...<6 lines>...
+        dtype_backend=dtype_backend,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+        SELECT
+        A.NIC_NAME AS "Account",
+    P.NAME AS "Category",
+    C.NAME AS "Subcategory",
+    I.DO_TYPE AS "Transaction Type",
+    I.ZCONTENT AS "Description",
+    I.ZDATE AS "Date",
+    I.ZMONEY AS "Amount",
+    I.ZDATA AS "Note",
+    I.txUidTrans AS "Transaction ID"
+        FROM INOUTCOME I
+    
+
+LEFT JOIN ASSETS A
+    ON I.assetUid
+    = A.uid
+
+
+LEFT JOIN ZCATEGORY C
+    ON I.ctgUid
+    = C.uid
+
+WHERE
+    
+I.DO_TYPE = 1
+AND I.NIC_NAME IS NULL
+
+ORDER BY I.ZDATE;': no such column: P.NAME
+2026-08-02 16:28:57 [INFO] 127.0.0.1 - - [02/Aug/2026 16:28:57] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 16:43:08 [INFO] Function started.
+2026-08-02 16:43:10 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:43:12 [INFO] Download progress: 100%
+2026-08-02 16:43:12 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp_hid0a7y.mmbak'.
+2026-08-02 16:43:12 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: A.NIC_NAME
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 45, in extract_transactions_from_sqlite
+    transfer_df = extract_transfers(
+        conn,
+        asset_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\transfers.py", line 11, in extract_transfers
+    df = pd.read_sql_query(TRANSFER_QUERY, conn)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        sql,
+        ^^^^
+    ...<6 lines>...
+        dtype_backend=dtype_backend,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+        SELECT
+        A.NIC_NAME AS "From Account",
+    A.NIC_NAME AS "To Account",
+    I.ZCONTENT AS "Description",
+    I.ZDATE AS "Date",
+    I.ZMONEY AS "Amount",
+    I.ZDATA AS "Note"
+        FROM INOUTCOME I
+    
+
+LEFT JOIN ASSETS FA
+    ON I.assetUid = FA.uid
+
+
+LEFT JOIN ASSETS TA
+    ON I.toAssetUid = TA.uid
+
+WHERE
+    
+I.toAssetUid IS NOT NULL
+
+ORDER BY I.ZDATE;': no such column: A.NIC_NAME
+2026-08-02 16:43:12 [INFO] 127.0.0.1 - - [02/Aug/2026 16:43:12] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 16:51:31 [INFO] Function started.
+2026-08-02 16:51:34 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:51:35 [INFO] Download progress: 100%
+2026-08-02 16:51:35 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp2ivlqrvi.mmbak'.
+2026-08-02 16:51:35 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: FA.NIC_NAME
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 33, in extract_transactions_from_sqlite
+    expense_df = extract_expenses(
+        conn,
+        asset_uid_dict,
+        category_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\expenses.py", line 11, in extract_expenses
+    df = pd.read_sql_query(EXPENSE_QUERY, conn)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        sql,
+        ^^^^
+    ...<6 lines>...
+        dtype_backend=dtype_backend,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+        SELECT
+        FA.NIC_NAME AS "Account",
+    C.NAME AS "Category",
+    C.NAME AS "Subcategory",
+    I.DO_TYPE AS "Transaction Type",
+    I.ZCONTENT AS "Description",
+    I.ZDATE AS "Date",
+    I.ZMONEY AS "Amount",
+    I.ZDATA AS "Note",
+    I.txUidTrans AS "Transaction ID"
+        FROM INOUTCOME I
+    
+
+    LEFT JOIN ASSETS TA
+        ON I.toAssetUid
+        = TA.uid
+    
+
+    LEFT JOIN ZCATEGORY C
+        ON I.ctgUid
+        = C.uid
+    
+WHERE
+    
+    I.DO_TYPE = 1
+    AND I.toAssetUid IS NULL
+    
+ORDER BY I.ZDATE;': no such column: FA.NIC_NAME
+2026-08-02 16:51:35 [INFO] 127.0.0.1 - - [02/Aug/2026 16:51:35] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 16:52:56 [INFO] Function started.
+2026-08-02 16:52:59 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:53:00 [INFO] Download progress: 100%
+2026-08-02 16:53:00 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp2uh141ob.mmbak'.
+2026-08-02 16:53:04 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 16:53:05 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 16:53:07 [INFO] Data written to Google Sheet.
+2026-08-02 16:53:07 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp2uh141ob.mmbak removed after processing.
+2026-08-02 16:53:07 [INFO] 127.0.0.1 - - [02/Aug/2026 16:53:07] "GET / HTTP/1.1" 200 -
+2026-08-02 16:57:47 [INFO] Function started.
+2026-08-02 16:57:50 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:57:51 [INFO] Download progress: 100%
+2026-08-02 16:57:51 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpu8kt5298.mmbak'.
+2026-08-02 16:57:55 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 16:57:55 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 16:57:57 [INFO] Data written to Google Sheet.
+2026-08-02 16:57:57 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpu8kt5298.mmbak removed after processing.
+2026-08-02 16:57:57 [INFO] 127.0.0.1 - - [02/Aug/2026 16:57:57] "GET / HTTP/1.1" 200 -
+2026-08-02 16:58:48 [INFO] Function started.
+2026-08-02 16:58:50 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 16:58:52 [INFO] Download progress: 100%
+2026-08-02 16:58:52 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmprk00qp34.mmbak'.
+2026-08-02 16:58:55 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 16:58:55 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 16:58:57 [INFO] Data written to Google Sheet.
+2026-08-02 16:58:57 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmprk00qp34.mmbak removed after processing.
+2026-08-02 16:58:57 [INFO] 127.0.0.1 - - [02/Aug/2026 16:58:57] "GET / HTTP/1.1" 200 -
+2026-08-02 17:03:52 [INFO] Function started.
+2026-08-02 17:03:54 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:03:56 [INFO] Download progress: 100%
+2026-08-02 17:03:56 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp0zwl4zwm.mmbak'.
+2026-08-02 17:03:59 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 17:04:00 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:04:02 [INFO] Data written to Google Sheet.
+2026-08-02 17:04:02 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp0zwl4zwm.mmbak removed after processing.
+2026-08-02 17:04:02 [INFO] 127.0.0.1 - - [02/Aug/2026 17:04:02] "GET / HTTP/1.1" 200 -
+2026-08-02 17:05:38 [INFO] Function started.
+2026-08-02 17:05:41 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:05:42 [INFO] Download progress: 100%
+2026-08-02 17:05:42 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp2kta183t.mmbak'.
+2026-08-02 17:05:45 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 17:05:46 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:05:47 [INFO] Data written to Google Sheet.
+2026-08-02 17:05:47 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp2kta183t.mmbak removed after processing.
+2026-08-02 17:05:47 [INFO] 127.0.0.1 - - [02/Aug/2026 17:05:47] "GET / HTTP/1.1" 200 -
+2026-08-02 17:14:20 [INFO] Function started.
+2026-08-02 17:14:22 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:14:24 [INFO] Download progress: 100%
+2026-08-02 17:14:24 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpr3prkoc3.mmbak'.
+2026-08-02 17:14:24 [ERROR] Error occurred.
+Traceback (most recent call last):
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+    ~~~~~~~~~~~^^^^^^^^^^^^
+sqlite3.OperationalError: near "AND": syntax error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\main.py", line 35, in main
+    transaction_df, transfer_df = extract_transactions_from_sqlite(
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        file_path,
+        ^^^^^^^^^^
+        previous_month=previous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\data_extraction.py", line 45, in extract_transactions_from_sqlite
+    transfer_df = extract_transfers(
+        conn,
+        asset_uid_dict,
+    )
+  File "d:\Others\gcp_expense_uploader_latest_git_linked\money_manager\sqlite_to_sheet_project\extractors\transfers.py", line 11, in extract_transfers
+    df = pd.read_sql_query(TRANSFER_QUERY, conn)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        sql,
+        ^^^^
+    ...<6 lines>...
+        dtype_backend=dtype_backend,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\gouri\AppData\Roaming\Python\Python314\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+        SELECT
+        FA.NIC_NAME AS "From Account",
+    TA.NIC_NAME AS "To Account",
+    I.ZCONTENT AS "Description",
+    I.ZDATE AS "Date",
+    I.ZMONEY AS "Amount",
+    I.ZDATA AS "Note"
+        FROM INOUTCOME I
+    
+
+LEFT JOIN ASSETS FA
+    ON I.assetUid = FA.uid
+
+
+LEFT JOIN ASSETS TA
+    ON I.toAssetUid = TA.uid
+
+WHERE
+    
+     AND TRIM(COALESCE(I.toAssetUid, '')) != ''
+
+ORDER BY I.ZDATE;': near "AND": syntax error
+2026-08-02 17:14:24 [INFO] 127.0.0.1 - - [02/Aug/2026 17:14:24] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2026-08-02 17:15:27 [INFO] Function started.
+2026-08-02 17:15:30 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:15:31 [INFO] Download progress: 100%
+2026-08-02 17:15:31 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp62mnsv_d.mmbak'.
+2026-08-02 17:15:35 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 17:15:35 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:15:37 [INFO] Data written to Google Sheet.
+2026-08-02 17:15:37 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp62mnsv_d.mmbak removed after processing.
+2026-08-02 17:15:37 [INFO] 127.0.0.1 - - [02/Aug/2026 17:15:37] "GET / HTTP/1.1" 200 -
+2026-08-02 17:22:48 [INFO] Function started.
+2026-08-02 17:22:51 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:22:53 [INFO] Download progress: 100%
+2026-08-02 17:22:53 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpbjx5qlet.mmbak'.
+2026-08-02 17:22:56 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 17:22:57 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:22:59 [INFO] Data written to Google Sheet.
+2026-08-02 17:22:59 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpbjx5qlet.mmbak removed after processing.
+2026-08-02 17:22:59 [INFO] 127.0.0.1 - - [02/Aug/2026 17:22:59] "GET / HTTP/1.1" 200 -
+2026-08-02 17:23:12 [INFO] Function started.
+2026-08-02 17:23:14 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:23:16 [INFO] Download progress: 100%
+2026-08-02 17:23:16 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpsejbi80c.mmbak'.
+2026-08-02 17:23:19 [INFO] Found existing worksheet: Jul-2026
+2026-08-02 17:23:20 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:23:21 [INFO] Data written to Google Sheet.
+2026-08-02 17:23:21 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpsejbi80c.mmbak removed after processing.
+2026-08-02 17:23:21 [INFO] 127.0.0.1 - - [02/Aug/2026 17:23:21] "GET /previous HTTP/1.1" 200 -
+2026-08-02 17:25:23 [INFO] Function started.
+2026-08-02 17:25:26 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:25:27 [INFO] Download progress: 100%
+2026-08-02 17:25:27 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpn303zceu.mmbak'.
+2026-08-02 17:25:30 [INFO] Found existing worksheet: Jul-2026
+2026-08-02 17:25:31 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:25:32 [INFO] Data written to Google Sheet.
+2026-08-02 17:25:32 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpn303zceu.mmbak removed after processing.
+2026-08-02 17:25:32 [INFO] 127.0.0.1 - - [02/Aug/2026 17:25:32] "GET /previous HTTP/1.1" 200 -
+2026-08-02 17:27:23 [INFO] Function started.
+2026-08-02 17:27:26 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:27:27 [INFO] Download progress: 100%
+2026-08-02 17:27:27 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpsj0klovg.mmbak'.
+2026-08-02 17:27:31 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 17:27:31 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:27:33 [INFO] Data written to Google Sheet.
+2026-08-02 17:27:33 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpsj0klovg.mmbak removed after processing.
+2026-08-02 17:27:33 [INFO] 127.0.0.1 - - [02/Aug/2026 17:27:33] "GET / HTTP/1.1" 200 -
+2026-08-02 17:28:02 [INFO] Function started.
+2026-08-02 17:28:05 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:28:06 [INFO] Download progress: 100%
+2026-08-02 17:28:06 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpwq684z1p.mmbak'.
+2026-08-02 17:28:10 [INFO] Found existing worksheet: Jul-2026
+2026-08-02 17:28:10 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:28:12 [INFO] Data written to Google Sheet.
+2026-08-02 17:28:12 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpwq684z1p.mmbak removed after processing.
+2026-08-02 17:28:12 [INFO] 127.0.0.1 - - [02/Aug/2026 17:28:12] "GET /previous HTTP/1.1" 200 -
+2026-08-02 17:31:33 [INFO] Function started.
+2026-08-02 17:31:36 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:31:38 [INFO] Download progress: 100%
+2026-08-02 17:31:38 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpvustdye3.mmbak'.
+2026-08-02 17:31:41 [INFO] Found existing worksheet: Aug-2026
+2026-08-02 17:31:41 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:31:43 [INFO] Data written to Google Sheet.
+2026-08-02 17:31:43 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpvustdye3.mmbak removed after processing.
+2026-08-02 17:31:43 [INFO] 127.0.0.1 - - [02/Aug/2026 17:31:43] "GET / HTTP/1.1" 200 -
+2026-08-02 17:32:32 [INFO] Function started.
+2026-08-02 17:32:34 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-02 17:32:36 [INFO] Download progress: 100%
+2026-08-02 17:32:36 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmp_ged8pam.mmbak'.
+2026-08-02 17:32:40 [INFO] Found existing worksheet: Jul-2026
+2026-08-02 17:32:41 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-02 17:32:43 [INFO] Data written to Google Sheet.
+2026-08-02 17:32:43 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp_ged8pam.mmbak removed after processing.
+2026-08-02 17:32:43 [INFO] 127.0.0.1 - - [02/Aug/2026 17:32:43] "GET /previous HTTP/1.1" 200 -

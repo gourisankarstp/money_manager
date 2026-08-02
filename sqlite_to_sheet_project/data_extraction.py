@@ -1,124 +1,74 @@
 import sqlite3
 import pandas as pd
-import logging
-from sqlite_to_sheet_project.filters import filter_transactions_for_month
+
+from sqlite_to_sheet_project.extractors.expenses import extract_expenses
+from sqlite_to_sheet_project.extractors.income import extract_income
+from sqlite_to_sheet_project.extractors.transfers import extract_transfers
+from sqlite_to_sheet_project.transformers.dates import format_dates
+
+from sqlite_to_sheet_project.filters import filter_transactions
+
+from sqlite_to_sheet_project.lookup import (
+    get_asset_uid_dict,
+    get_category_uid_dict,
+)
 
 
-def extract_transactions_from_sqlite(db_path,previous_month=False):
+def extract_transactions_from_sqlite(
+    db_path,
+    previous_month=False,
+):
+    """
+    Extract expense, income and transfer transactions from the SQLite database.
+    """
+
+    conn = sqlite3.connect(db_path)
+
     try:
-        conn = sqlite3.connect(db_path)
+        # Build lookup dictionaries
+        asset_uid_dict = get_asset_uid_dict(conn)
+        category_uid_dict = get_category_uid_dict(conn)
 
-        zcategory_df = pd.read_sql("SELECT uid, pUid, NAME FROM ZCATEGORY", conn)
-        assets_df = pd.read_sql("SELECT ID, uid, NIC_NAME FROM ASSETS", conn)
-        # Money Manager uses two asset identifier schemes.
-        #
-        # Older databases reference ASSETS.ID.
-        # Newer databases reference ASSETS.uid.
-        #
-        # ID and uid can contain the same values (e.g. ID=11 and uid=11 for different
-        # accounts), so they must NEVER be stored in the same lookup dictionary.
-        asset_id_dict = {}
-        asset_uid_dict = {}
-
-        for _, row in assets_df.iterrows():
-            account_name = row["NIC_NAME"]
-
-            if pd.isna(account_name) or not str(account_name).strip():
-                continue
-
-            if pd.notna(row["ID"]):
-                asset_id_dict[str(row["ID"])] = account_name
-
-            if pd.notna(row["uid"]):
-                asset_uid_dict[str(row["uid"])] = account_name
-
-        category_dict = {}
-        subcategory_dict = {}
-        for _, row in zcategory_df.iterrows():
-            uid, pUid, name = row["uid"], row["pUid"], row["NAME"]
-            if pd.isna(pUid) or str(pUid) in ('0', ''):
-                category_dict[uid] = name
-            else:
-                subcategory_dict[uid] = (pUid, name)
-
-        query = """SELECT assetUid, ASSET_NIC, ctgUid, DO_TYPE, ZCONTENT, ZDATE, ZMONEY, ZDATA
-                   FROM INOUTCOME WHERE DO_TYPE IN ('0', '1')"""
-        df = pd.read_sql(query, conn)
-
-        if df.empty:
-            logging.warning("No valid transactions found.")
-            return None
-        # Ensure Amount is float
-        df["ZMONEY"] = pd.to_numeric(df["ZMONEY"], errors="coerce").astype(float)
-        df = filter_transactions_for_month(df, date_column="ZDATE",previous_month=previous_month)
-
-        def map_category(ctgUid):
-            category = category_dict.get(ctgUid, "Unknown")
-            subcategory = None
-            if ctgUid in subcategory_dict:
-                parent_uid, subcat_name = subcategory_dict[ctgUid]
-                category = category_dict.get(parent_uid, "Unknown")
-                subcategory = subcat_name
-            return category, subcategory
-
-        df["Category"], df["Subcategory"] = zip(*df["ctgUid"].apply(map_category))
-        # Match Google Sheets' REGEXREPLACE(E2:E, "^[^A-Za-z]+", "") so
-        # category icons (for example, emoji prefixes) are not exported.
-        df["Category"] = df["Category"].astype("string").str.replace(
-            r"^[^A-Za-z]+", "", regex=True
+        # Extract data
+        expense_df = extract_expenses(
+            conn,
+            asset_uid_dict,
+            category_uid_dict,
         )
-        df["Transaction Type"] = df["DO_TYPE"].apply(lambda x: "In" if int(x) == 0 else "Out")
 
-        def map_account(row):
-            asset_key = str(row["assetUid"])
+        income_df = extract_income(
+            conn,
+            asset_uid_dict,
+            category_uid_dict,
+        )
 
-            # Prefer uid lookup
-            account_name = asset_uid_dict.get(asset_key)
+        transfer_df = extract_transfers(
+            conn,
+            asset_uid_dict,
+        )
 
-            # Fall back to ID lookup for older databases
-            if account_name is None:
-                account_name = asset_id_dict.get(asset_key)
+        # Combine expenses and income
+        transaction_df = pd.concat(
+            [expense_df, income_df],
+            ignore_index=True,
+        )
 
-            if account_name:
-                return account_name
+        # Apply filters
+        transaction_df = filter_transactions(
+            transaction_df,
+            previous_month=previous_month,
+        )
 
-            fallback_name = row["ASSET_NIC"]
-            if pd.notna(fallback_name) and str(fallback_name).strip():
-                return fallback_name
+        transfer_df = filter_transactions(
+            transfer_df,
+            previous_month=previous_month,
+        )
 
-            return "Unknown"
+        # transaction_df = format_dates(transaction_df)
 
-        df["Account"] = df.apply(map_account, axis=1)
+        # transfer_df = format_dates(transfer_df)
 
-        df.rename(columns={
-            "ZCONTENT": "Note",
-            "ZDATE": "Date",
-            "ZMONEY": "Amount",
-            "ZDATA": "Description"
-        }, inplace=True)
-
-        df.drop(columns=["assetUid", "ASSET_NIC", "ctgUid", "DO_TYPE"], inplace=True)
-        df = df[
-            [
-                "Note",
-                "Date",
-                "Account",
-                "Amount",
-                "Description",
-                "Category",
-                "Subcategory",
-                "Transaction Type",
-            ]
-        ]
-        # Google Sheets' API rejects NaN/NaT values because they are not valid
-        # JSON numbers. Export missing database fields as blank cells instead.
-        df = df.astype(object).where(pd.notna(df), None)
-        logging.info(f"Processed {len(df)} valid transactions.")
-        return df
-
-    except Exception as e:
-        logging.exception("Data extraction failed.")
-        return None
+        return transaction_df, transfer_df
 
     finally:
         conn.close()

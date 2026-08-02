@@ -1,14 +1,21 @@
 import sqlite3
 import csv
 
-DB_FILE = "MMGF(31-07-26-133144).mmbak"
+DB_FILE = "MMGF(02-08-26-122439).mmbak"
 OUTPUT_FILE = "result.csv"
 
 conn = sqlite3.connect(DB_FILE)
 conn.row_factory = sqlite3.Row
 
 cursor = conn.cursor()
-cursor.execute("SELECT * FROM INOUTCOME")
+cursor.execute("""
+SELECT
+    '[' || IFNULL(toAssetUid, 'NULL') || ']' AS Value,
+    COUNT(*) AS Count
+FROM INOUTCOME
+WHERE DO_TYPE = 1
+GROUP BY toAssetUid;
+""")
 
 rows = cursor.fetchall()
 

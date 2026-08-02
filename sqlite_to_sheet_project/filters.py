@@ -14,7 +14,7 @@ REPORT_TZ = ZoneInfo(REPORT_TIMEZONE)
 UTC = ZoneInfo("UTC")
 
 
-def filter_transactions_for_month(df, date_column="ZDATE", previous_month=False):
+def filter_transactions(df, date_column="Date", previous_month=False):
 
     if previous_month:
         target_start = datetime(

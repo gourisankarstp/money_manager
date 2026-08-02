@@ -1,0 +1,8 @@
+ACCOUNTS_QUERY = """
+SELECT
+    uid,
+    NIC_NAME,
+    groupUid
+FROM ASSETS
+ORDER BY NIC_NAME;
+"""
