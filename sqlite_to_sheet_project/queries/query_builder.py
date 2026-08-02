@@ -11,9 +11,20 @@ def build_select_clause(column_keys):
     columns = []
 
     for key in column_keys:
-        columns.append(
-            f'{column_alias(key)}.{db(key)} AS "{column(key)}"'
-        )
+        column_db = db(key)
+
+        # Allow SQL expressions
+        if any(
+            keyword in column_db.upper()
+            for keyword in ("CASE", "COALESCE", "IFNULL", "(", "||")
+        ):
+            columns.append(
+                f'{column_db} AS "{column(key)}"'
+            )
+        else:
+            columns.append(
+                f'{column_alias(key)}.{column_db} AS "{column(key)}"'
+            )
 
     return ",\n    ".join(columns)
 

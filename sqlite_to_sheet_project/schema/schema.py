@@ -14,7 +14,11 @@ TABLE_SCHEMA = {
     "category": {
         "name": "ZCATEGORY",
         "alias": "C",
-    }
+    },
+        "parent_category": {
+        "name": "ZCATEGORY",
+        "alias": "P",
+    },
 }
 
 COLUMN_SCHEMA = {
@@ -68,13 +72,23 @@ COLUMN_SCHEMA = {
     },
     "category": {
         "table": "category",
-        "db": "NAME",
+        "db":   """
+            CASE
+                WHEN P.uid IS NULL THEN C.NAME
+                ELSE P.NAME
+            END
+            """,
         "column": "Category",
         "title": "Category",
     },
     "subcategory": {
         "table": "category",
-        "db": "NAME",
+        "db": """
+                CASE
+                    WHEN P.uid IS NULL THEN ''
+                    ELSE C.NAME
+                END
+                """,
         "column": "Subcategory",
         "title": "Subcategory",
     },

@@ -27,10 +27,15 @@ LEFT JOIN {table("from_asset")} {table_alias("from_asset")}
     = {table_alias("from_asset")}.uid
 """,
     f"""
-LEFT JOIN {table("category")} {table_alias("category")}
-    ON {table_alias("transaction")}.{db("category_id")}
-    = {table_alias("category")}.uid
-""",
+    LEFT JOIN {table("category")} {table_alias("category")}
+        ON {table_alias("transaction")}.{db("category_id")}
+        = {table_alias("category")}.uid
+    """,
+    f"""
+    LEFT JOIN {table("parent_category")} {table_alias("parent_category")}
+        ON {table_alias("category")}.pUid
+        = {table_alias("parent_category")}.uid
+    """,
 ],
     where=f"""
 {table_alias("transaction")}.{db("transaction_type")} = 0
