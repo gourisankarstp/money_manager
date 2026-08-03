@@ -998,3 +998,39 @@ ORDER BY I.ZDATE;': near "AND": syntax error
 2026-08-02 17:32:43 [INFO] Data written to Google Sheet.
 2026-08-02 17:32:43 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmp_ged8pam.mmbak removed after processing.
 2026-08-02 17:32:43 [INFO] 127.0.0.1 - - [02/Aug/2026 17:32:43] "GET /previous HTTP/1.1" 200 -
+2026-08-03 10:15:07 [INFO] Function started.
+2026-08-03 10:15:09 [INFO] Function started.
+2026-08-03 10:15:11 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-03 10:15:12 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-03 10:15:13 [INFO] Download progress: 100%
+2026-08-03 10:15:13 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpvinfyknh.mmbak'.
+2026-08-03 10:15:14 [INFO] Download progress: 100%
+2026-08-03 10:15:14 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpa89j5yqz.mmbak'.
+2026-08-03 10:15:17 [INFO] Found existing worksheet: Jul-2026
+2026-08-03 10:15:17 [INFO] Found existing worksheet: Jul-2026
+2026-08-03 10:15:18 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-03 10:15:18 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-03 10:15:20 [INFO] Data written to Google Sheet.
+2026-08-03 10:15:20 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpa89j5yqz.mmbak removed after processing.
+2026-08-03 10:15:20 [INFO] 127.0.0.1 - - [03/Aug/2026 10:15:20] "GET /previous HTTP/1.1" 200 -
+2026-08-03 10:15:20 [INFO] Data written to Google Sheet.
+2026-08-03 10:15:20 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpvinfyknh.mmbak removed after processing.
+2026-08-03 10:15:21 [INFO] 127.0.0.1 - - [03/Aug/2026 10:15:21] "GET /previous HTTP/1.1" 200 -
+2026-08-03 10:48:49 [INFO] Function started.
+2026-08-03 10:48:52 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-03 10:48:54 [INFO] Download progress: 100%
+2026-08-03 10:48:54 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpn6r7vdto.mmbak'.
+2026-08-03 10:48:58 [INFO] Found existing worksheet: Jul-2026
+2026-08-03 10:48:59 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-03 10:49:00 [INFO] Data written to Google Sheet.
+2026-08-03 10:49:00 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpn6r7vdto.mmbak removed after processing.
+2026-08-03 10:49:00 [INFO] 127.0.0.1 - - [03/Aug/2026 10:49:00] "GET /previous HTTP/1.1" 200 -
+2026-08-03 10:50:19 [INFO] Function started.
+2026-08-03 10:50:23 [INFO] Selected backup: MMGF(02-08-26-122439).mmbak (created: 2026-08-02T06:54:41.909Z)
+2026-08-03 10:50:24 [INFO] Download progress: 100%
+2026-08-03 10:50:24 [INFO] Downloaded 'MMGF(02-08-26-122439).mmbak' to 'C:\Users\gouri\AppData\Local\Temp\tmpjyh1gjr1.mmbak'.
+2026-08-03 10:50:29 [INFO] Found existing worksheet: Jul-2026
+2026-08-03 10:50:29 [INFO] Formatted 'Amount' column as Indian Rupees.
+2026-08-03 10:50:31 [INFO] Data written to Google Sheet.
+2026-08-03 10:50:31 [INFO] Temp file C:\Users\gouri\AppData\Local\Temp\tmpjyh1gjr1.mmbak removed after processing.
+2026-08-03 10:50:31 [INFO] 127.0.0.1 - - [03/Aug/2026 10:50:31] "GET /previous HTTP/1.1" 200 -

@@ -35,12 +35,12 @@ def write_dataframe(
     if dataframe is None or dataframe.empty:
         return start_row, start_col
 
-    title_cell = rowcol_to_a1(start_row, start_col)
-    header_cell = rowcol_to_a1(start_row + 1, start_col)
-    data_cell = rowcol_to_a1(start_row + 2, start_col)
+    # title_cell = rowcol_to_a1(start_row, start_col)
+    header_cell = rowcol_to_a1(start_row , start_col)
+    data_cell = rowcol_to_a1(start_row + 1, start_col)
 
-    # Section title
-    sheet.update(title_cell, [[title]])
+    # # Section title
+    # sheet.update(title_cell, [[title]])
 
     # Header + Data
     values = [dataframe.columns.tolist()] + dataframe.fillna("").values.tolist()

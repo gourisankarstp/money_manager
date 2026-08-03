@@ -10,11 +10,8 @@ conn.row_factory = sqlite3.Row
 cursor = conn.cursor()
 cursor.execute("""
 SELECT
-    '[' || IFNULL(toAssetUid, 'NULL') || ']' AS Value,
-    COUNT(*) AS Count
-FROM INOUTCOME
-WHERE DO_TYPE = 1
-GROUP BY toAssetUid;
+    * from INOUTCOME
+WHERE toAssetUid !=''
 """)
 
 rows = cursor.fetchall()

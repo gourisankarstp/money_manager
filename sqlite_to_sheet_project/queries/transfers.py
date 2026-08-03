@@ -28,7 +28,7 @@ LEFT JOIN {table("to_asset")} TA
 """,
 ],
     where=f"""
-     TRIM(COALESCE({table_alias("transaction")}.{db("to_account_id")}, '')) != ''
+     TRIM(COALESCE({table_alias("transaction")}.{db("to_account_id")}, '')) != '' AND DO_TYPE = 3
 """,
     order_by_column="date",
 )
