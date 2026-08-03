@@ -11,10 +11,13 @@ _EMOJI_PATTERN = re.compile(
     flags=re.UNICODE,
 )
 
+# Remove invisible Unicode characters left behind by emojis
+_INVISIBLE_PATTERN = re.compile(r"[\u200B\u200C\u200D\uFE0E\uFE0F]+")
+
 
 def remove_emojis(df, column_key):
     """
-    Remove emojis from the specified column.
+    Remove emojis and invisible Unicode characters from the specified column.
 
     Args:
         df: DataFrame
@@ -28,6 +31,7 @@ def remove_emojis(df, column_key):
             df[column_name]
             .fillna("")
             .str.replace(_EMOJI_PATTERN, "", regex=True)
+            .str.replace(_INVISIBLE_PATTERN, "", regex=True)
             .str.strip()
         )
 
