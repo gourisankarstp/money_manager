@@ -17,6 +17,13 @@ def get_asset_uid_dict(conn):
         conn,
     )
 
+    df["NIC_NAME"] = (
+        df["NIC_NAME"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
+
     return dict(zip(df["uid"], df["NIC_NAME"]))
 
 
@@ -31,6 +38,13 @@ def get_asset_name_dict(conn):
     df = pd.read_sql_query(
         ACCOUNTS_QUERY,
         conn,
+    )
+
+    df["NIC_NAME"] = (
+        df["NIC_NAME"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
     )
 
     return dict(zip(df["NIC_NAME"], df["uid"]))

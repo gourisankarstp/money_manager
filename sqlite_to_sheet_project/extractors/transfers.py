@@ -14,6 +14,7 @@ def extract_transfers(conn, asset_uid_dict):
     df = remove_emojis(df, "category")
     df = remove_emojis(df, "subcategory")
     df = remove_emojis(df, "account")
+    df = remove_emojis(df, "to_account")
     df = convert_to_number(df, "amount")
 
 

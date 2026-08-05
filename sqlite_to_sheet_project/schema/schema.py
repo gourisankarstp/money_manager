@@ -42,19 +42,19 @@ COLUMN_SCHEMA = {
     },
     "account": {
         "table": "from_asset",
-        "db": "NIC_NAME",
+        "db": "TRIM(NIC_NAME)",
         "column": "Account",
         "title": "Account",
     },
     "from_account": {
         "table": "from_asset",
-        "db": "NIC_NAME",
+        "db": "TRIM(NIC_NAME)",
         "column": "From Account",
         "title": "From Account",
     },
     "to_account": {
         "table": "to_asset",
-        "db": "NIC_NAME",
+        "db": "TRIM(NIC_NAME)",
         "column": "To Account",
         "title": "To Account",
     },
