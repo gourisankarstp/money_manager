@@ -32,6 +32,8 @@ def remove_emojis(df, column_key):
             .fillna("")
             .str.replace(_EMOJI_PATTERN, "", regex=True)
             .str.replace(_INVISIBLE_PATTERN, "", regex=True)
+            .str.replace("\u00A0", " ", regex=False)  # Replace non-breaking spaces
+            .str.replace(r"\s+", " ", regex=True)     # Collapse multiple whitespace
             .str.strip()
         )
 
