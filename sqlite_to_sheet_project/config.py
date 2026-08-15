@@ -13,6 +13,8 @@ LOCAL_SERVICE_ACCOUNT_FILE = str(
     Path(__file__).resolve().parent.parent / "service_account.json"
 )
 SPREADSHEET_NAME = "Expenses Datasheet"
+ACCOUNTING_APP_FOLDER_NAME="MoneyManager"
+PAYMENT_APP_EXPORT_FOLDER_NAME="Paytm_Export"
 
 # For automatic recent data
 # Set both to None if you want current month automatically

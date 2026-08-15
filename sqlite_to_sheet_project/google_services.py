@@ -12,6 +12,8 @@ from sqlite_to_sheet_project.config import (
     LOCAL_SERVICE_ACCOUNT_FILE,
     SCOPES,
     SERVICE_ACCOUNT_FILE,
+    ACCOUNTING_APP_FOLDER_NAME,
+    PAYMENT_APP_EXPORT_FOLDER_NAME,
 )
 
 def get_drive_and_creds():
@@ -65,9 +67,39 @@ def get_drive_and_creds():
 #     logging.info(f"Downloaded file saved temporarily at '{temp_file_path}'.")
 #     return temp_file_path
 def download_latest_sqlite_file(drive_service):
+    # Find the Accounting App folder
+    folder_results = drive_service.files().list(
+        q=(
+            f"name = '{ACCOUNTING_APP_FOLDER_NAME}' "
+            f"and mimeType = 'application/vnd.google-apps.folder' "
+            f"and trashed = false"
+        ),
+        fields="files(id, name)",
+        pageSize=1
+    ).execute()
+
+    folders = folder_results.get("files", [])
+
+    if not folders:
+        logging.warning(
+            f"Drive folder '{ACCOUNTING_APP_FOLDER_NAME}' not found."
+        )
+        return None
+
+    folder_id = folders[0]["id"]
+
+    logging.info(
+        f"Using Drive folder '{ACCOUNTING_APP_FOLDER_NAME}' "
+        f"(ID: {folder_id})"
+    )
+
     def get_latest_file(name_pattern):
         results = drive_service.files().list(
-            q=f"name contains '{name_pattern}' and trashed=false",
+            q=(
+                f"name contains '{name_pattern}' "
+                f"and '{folder_id}' in parents "
+                f"and trashed = false"
+            ),
             fields="files(id, name, createdTime)",
             orderBy="createdTime desc",
             pageSize=1
@@ -92,7 +124,10 @@ def download_latest_sqlite_file(drive_service):
         selected_file = latest_mmauto
 
     else:
-        logging.warning("No matching SQLite files found.")
+        logging.warning(
+            f"No MMAuto or MMGF files found in "
+            f"'{ACCOUNTING_APP_FOLDER_NAME}'."
+        )
         return None
 
     logging.info(
@@ -100,7 +135,9 @@ def download_latest_sqlite_file(drive_service):
         f"(created: {selected_file['createdTime']})"
     )
 
-    request = drive_service.files().get_media(fileId=selected_file["id"])
+    request = drive_service.files().get_media(
+        fileId=selected_file["id"]
+    )
 
     fh = io.BytesIO()
     downloader = MediaIoBaseDownload(fh, request)
@@ -108,17 +145,23 @@ def download_latest_sqlite_file(drive_service):
     done = False
     while not done:
         status, done = downloader.next_chunk()
-        logging.info(f"Download progress: {int(status.progress() * 100)}%")
+        logging.info(
+            f"Download progress: {int(status.progress() * 100)}%"
+        )
 
     fh.seek(0)
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".mmbak") as temp_file:
+    with tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".mmbak"
+    ) as temp_file:
         temp_file.write(fh.read())
         temp_file.flush()
         temp_file_path = temp_file.name
 
     logging.info(
-        f"Downloaded '{selected_file['name']}' to '{temp_file_path}'."
+        f"Downloaded '{selected_file['name']}' "
+        f"to '{temp_file_path}'."
     )
 
     return temp_file_path
