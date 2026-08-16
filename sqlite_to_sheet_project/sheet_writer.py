@@ -47,3 +47,36 @@ def get_or_create_monthly_sheet(gc, spreadsheet_name,previous_month=False):
         logging.warning(f"Could not format 'Amount' column: {e}")
 
     return sheet
+
+def get_or_create_sheet(
+    gc,
+    spreadsheet_name,
+    sheet_name,
+    rows=1000,
+    cols=26,
+):
+    spreadsheet = gc.open(spreadsheet_name)
+
+    sheet_titles = [
+        ws.title
+        for ws in spreadsheet.worksheets()
+    ]
+
+    if sheet_name in sheet_titles:
+        sheet = spreadsheet.worksheet(sheet_name)
+
+        logging.info(
+            f"Found existing worksheet: {sheet_name}"
+        )
+    else:
+        sheet = spreadsheet.add_worksheet(
+            title=sheet_name,
+            rows=rows,
+            cols=cols,
+        )
+
+        logging.info(
+            f"Created new worksheet: {sheet_name}"
+        )
+
+    return sheet

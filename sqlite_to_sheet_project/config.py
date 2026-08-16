@@ -37,3 +37,16 @@ SCOPES = [
     'https://www.googleapis.com/auth/drive',
     'https://www.googleapis.com/auth/spreadsheets'
 ]
+
+
+# Paytm account name -> Money Manager account name
+PAYTM_ACCOUNT_MAP = {
+    "State Bank Of India - 66": "SBI",
+    "HDFC Bank - 05": "HDFC BANK",
+    "HDFC Bank RuPay Credit Card - 98": "HDFC CREDIT CARD",
+    "Yes Bank RuPay Credit Card - 44": "Yes Bank UPI CC",
+    "IDFC FIRST Rupay Credit Card - 90": "IDFC First Power Plus",
+    "Bank Of Baroda Rupay Credit Card - 03": "Uni Card UPI",
+    "Slice Small Finance Bank Limited - 22": "Slice Bank",
+    "Paytm Postpaid - 42": "Paytm postpaid",
+}
