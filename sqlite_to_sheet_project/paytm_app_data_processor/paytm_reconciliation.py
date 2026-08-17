@@ -1,10 +1,13 @@
 import logging
 
 import pandas as pd
-import os
 import pathlib
 
-from sqlite_to_sheet_project.filters import filter_transactions
+from sqlite_to_sheet_project.filters import (
+    filter_transactions,
+    REPORT_TZ,
+)
+
 
 # =============================================================
 # READ PAYTM PAYMENTS
@@ -34,8 +37,7 @@ def read_paytm_payments(
 
     Time is ignored.
 
-    Output is the normalized Paytm format used for
-    reconciliation with Money Manager:
+    Output:
 
         Payment Date
         Payment Amount
@@ -115,14 +117,37 @@ def read_paytm_payments(
     ).dt.date
 
     # ---------------------------------------------------------
-    # 5a. Date column for common transaction filtering
+    # 5a. Create timestamp for common transaction filtering
+    #
+    # filter_transactions() expects epoch milliseconds.
+    #
+    # Paytm only provides a date, so use midnight in the
+    # report timezone before converting to UTC epoch ms.
     # ---------------------------------------------------------
 
+    paytm_datetime = pd.to_datetime(
+        paytm["Payment Date"],
+        errors="coerce",
+    )
+
+    paytm_datetime = paytm_datetime.dt.tz_localize(
+        REPORT_TZ
+    )
+
     paytm["Payment Date_ms"] = (
-        pd.to_datetime(
-            paytm["Payment Date"],
-            errors="coerce",
-        ).astype("int64") // 10**6
+        paytm_datetime.dt.as_unit("ms").astype("int64")
+    )
+
+    # Keep invalid dates as missing
+    paytm.loc[
+        paytm["Payment Date"].isna(),
+        "Payment Date_ms",
+    ] = pd.NA
+
+    logging.info(
+        f"Paytm Payment Date_ms range: "
+        f"{paytm['Payment Date_ms'].min()} -> "
+        f"{paytm['Payment Date_ms'].max()}"
     )
 
     # ---------------------------------------------------------
@@ -223,6 +248,11 @@ def read_paytm_payments(
         invalid_rows.sum()
     )
 
+    logging.info(
+        f"Paytm invalid rows: "
+        f"{invalid_count} / {len(paytm)}"
+    )
+
     if invalid_count:
 
         logging.warning(
@@ -234,8 +264,16 @@ def read_paytm_payments(
             ~invalid_rows
         ].copy()
 
+    logging.info(
+        f"Paytm rows BEFORE reconciliation-period filter: "
+        f"{len(paytm)}"
+    )
+
     # ---------------------------------------------------------
     # 12a. Filter by report month
+    #
+    # All month/timezone logic is handled centrally by
+    # filter_transactions().
     # ---------------------------------------------------------
 
     paytm = filter_transactions(
@@ -244,11 +282,19 @@ def read_paytm_payments(
         previous_month=previous_month,
     )
 
-    # Remove helper date column
+    logging.info(
+        f"Paytm rows AFTER reconciliation-period filter: "
+        f"{len(paytm)}"
+    )
+
+    # ---------------------------------------------------------
+    # 12b. Remove helper date column
+    # ---------------------------------------------------------
+
     paytm.drop(
         columns=["Payment Date_ms"],
         inplace=True,
-    )    
+    )
 
     # ---------------------------------------------------------
     # 13. Final normalized columns
@@ -304,7 +350,18 @@ def read_paytm_payments(
             ]
         ].to_string(index=False)
     )
-    csv_path = "debug_paytm.csv"
-    csv_path = pathlib.Path(csv_path).resolve()
-    paytm.to_csv(csv_path, index=False)
+
+    # ---------------------------------------------------------
+    # DEBUG CSV
+    # ---------------------------------------------------------
+
+    csv_path = pathlib.Path(
+        "debug_paytm.csv"
+    ).resolve()
+
+    paytm.to_csv(
+        csv_path,
+        index=False,
+    )
+
     return paytm

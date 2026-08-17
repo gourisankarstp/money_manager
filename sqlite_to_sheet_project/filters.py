@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
+import logging
 
 from sqlite_to_sheet_project.config import (
     target_year,
@@ -15,6 +16,12 @@ UTC = ZoneInfo("UTC")
 
 
 def filter_transactions(df, date_column="Date", previous_month=False):
+    logging.info(
+        f"filter_transactions: "
+        f"target_year={target_year}, "
+        f"target_month={target_month}, "
+        f"previous_month={previous_month}"
+    )
 
     if previous_month:
         target_start = datetime(
@@ -48,6 +55,19 @@ def filter_transactions(df, date_column="Date", previous_month=False):
     start_ts = int(start.astimezone(UTC).timestamp() * 1000)
     end_ts = int(end.astimezone(UTC).timestamp() * 1000)
 
+    logging.info(
+        f"Filter period: "
+        f"start={start}, "
+        f"end={end}, "
+        f"start_ts={start_ts}, "
+        f"end_ts={end_ts}"
+    )
+
+    logging.info(
+        f"Input {date_column} range: "
+        f"{df[date_column].min()} -> {df[date_column].max()}"
+    )
+
     df = df.copy()
     df[date_column] = pd.to_numeric(df[date_column], errors="coerce")
 
@@ -55,6 +75,10 @@ def filter_transactions(df, date_column="Date", previous_month=False):
         (df[date_column] >= start_ts) &
         (df[date_column] <= end_ts)
     ].copy()
+
+    logging.info(
+        f"Rows after timestamp filter: {len(filtered_df)}"
+    )
 
     filtered_df.sort_values(by=date_column,ascending=True, inplace=True)
 
