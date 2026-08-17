@@ -226,6 +226,7 @@ def reconcile_paytm_with_money_manager(
         how="left",
     )
 
+    discrepancy_df["Is_Verified"] = False
     # =========================================================
     # 12. ARRANGE OUTPUT COLUMNS
     # =========================================================
@@ -240,6 +241,7 @@ def reconcile_paytm_with_money_manager(
             "Paytm Count",
             "Money Manager Count",
             "Status",
+            "Is_Verified",
         ]
     ]
 
