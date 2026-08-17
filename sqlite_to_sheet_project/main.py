@@ -26,6 +26,7 @@ from sqlite_to_sheet_project.sheet_writer import (
 
 from sqlite_to_sheet_project.sheet_data_writer import (
     write_dataframe,
+    setup_discrepancy_sheet,
 )
 
 from sqlite_to_sheet_project.mergers import (
@@ -208,6 +209,10 @@ def main(request=None, previous=False):
                 start_col=1,
                 clear=True,
             )
+            setup_discrepancy_sheet(
+                    sheet=discrepancy_sheet,
+                    dataframe=discrepancy_df,
+                )
 
             logging.info(
                 "Payment discrepancy data written to "

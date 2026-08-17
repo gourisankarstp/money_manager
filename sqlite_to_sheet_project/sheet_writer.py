@@ -1,7 +1,14 @@
 import logging
 from datetime import datetime, timedelta
 from sqlite_to_sheet_project.config import target_year, target_month
-from gspread_formatting import format_cell_range, CellFormat, NumberFormat
+from gspread_formatting import (
+    format_cell_range,
+    CellFormat,
+    NumberFormat,
+    ConditionalFormatRule,
+    BooleanRule,
+    BooleanCondition,
+)
 
 def get_or_create_monthly_sheet(gc, spreadsheet_name,previous_month=False):
     spreadsheet = gc.open(spreadsheet_name)
@@ -80,3 +87,39 @@ def get_or_create_sheet(
         )
 
     return sheet
+
+def format_discrepancy_sheet(sheet):
+    """
+    Configure Payment_Discrepancy_Record sheet.
+
+    - Freeze header row.
+    - Add checkboxes to isVerified column.
+    - Turn the entire data row green when verified.
+    """
+
+    # Header row
+    sheet.freeze(rows=1)
+
+    # Find isVerified column
+    headers = sheet.row_values(1)
+
+    if "isVerified" not in headers:
+        logging.warning(
+            "isVerified column not found in discrepancy sheet."
+        )
+        return
+
+    verified_col = headers.index("isVerified") + 1
+
+    # Checkbox validation
+    sheet.set_data_validation(
+        f"{gspread.utils.rowcol_to_a1(2, verified_col)}:"
+        f"{gspread.utils.rowcol_to_a1(sheet.row_count, verified_col)}",
+        {
+            "condition": {
+                "type": "BOOLEAN"
+            },
+            "showCustomUi": True,
+            "strict": True,
+        },
+    )
