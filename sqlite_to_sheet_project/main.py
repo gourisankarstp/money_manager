@@ -106,6 +106,7 @@ def main(request=None, previous=False):
                 paytm_df = read_paytm_payments(
                     paytm_file_path,
                     PAYTM_ACCOUNT_MAP,
+                    previous_month=previous
                 )
 
                 # =================================================

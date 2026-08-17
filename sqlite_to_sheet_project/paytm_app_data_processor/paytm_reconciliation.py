@@ -4,6 +4,8 @@ import pandas as pd
 import os
 import pathlib
 
+from sqlite_to_sheet_project.filters import filter_transactions
+
 # =============================================================
 # READ PAYTM PAYMENTS
 # =============================================================
@@ -11,6 +13,7 @@ import pathlib
 def read_paytm_payments(
     file_path,
     account_map,
+    previous_month=False,
 ):
     """
     Read and normalize Paytm payment records.
@@ -110,6 +113,17 @@ def read_paytm_payments(
         format="%d/%m/%Y",
         errors="coerce",
     ).dt.date
+
+    # ---------------------------------------------------------
+    # 5a. Date column for common transaction filtering
+    # ---------------------------------------------------------
+
+    paytm["Payment Date_ms"] = (
+        pd.to_datetime(
+            paytm["Payment Date"],
+            errors="coerce",
+        ).astype("int64") // 10**6
+    )
 
     # ---------------------------------------------------------
     # 6. Preserve raw amount
@@ -219,6 +233,22 @@ def read_paytm_payments(
         paytm = paytm[
             ~invalid_rows
         ].copy()
+
+    # ---------------------------------------------------------
+    # 12a. Filter by report month
+    # ---------------------------------------------------------
+
+    paytm = filter_transactions(
+        paytm,
+        date_column="Payment Date_ms",
+        previous_month=previous_month,
+    )
+
+    # Remove helper date column
+    paytm.drop(
+        columns=["Payment Date_ms"],
+        inplace=True,
+    )    
 
     # ---------------------------------------------------------
     # 13. Final normalized columns
