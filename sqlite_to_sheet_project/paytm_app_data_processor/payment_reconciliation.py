@@ -226,13 +226,32 @@ def reconcile_paytm_with_money_manager(
         how="left",
     )
 
-    discrepancy_df["Is_Verified"] = False
     # =========================================================
-    # 12. ARRANGE OUTPUT COLUMNS
+    # 12. ADD TRANSACTION ID
+    # =========================================================
+
+    discrepancy_df.insert(
+        0,
+        "Transaction_ID",
+        [
+            f"PAYTM_{i:04d}"
+            for i in range(1, len(discrepancy_df) + 1)
+        ],
+    )
+
+    # =========================================================
+    # 13. ADD VERIFICATION FLAG
+    # =========================================================
+
+    discrepancy_df["Is_Verified"] = False
+
+    # =========================================================
+    # 14. ARRANGE OUTPUT COLUMNS
     # =========================================================
 
     discrepancy_df = discrepancy_df[
         [
+            "Transaction_ID",
             "Payment Date",
             "Payment Amount",
             "Paytm Account",
@@ -246,7 +265,7 @@ def reconcile_paytm_with_money_manager(
     ]
 
     # =========================================================
-    # 13. FORMAT PAYMENT DATE
+    # 15. FORMAT PAYMENT DATE
     # =========================================================
 
     discrepancy_df["Payment Date"] = (
@@ -258,7 +277,7 @@ def reconcile_paytm_with_money_manager(
     )
 
     # =========================================================
-    # 14. FORMAT PAYMENT AMOUNT
+    # 16. FORMAT PAYMENT AMOUNT
     # =========================================================
 
     discrepancy_df["Payment Amount"] = (
@@ -276,13 +295,13 @@ def reconcile_paytm_with_money_manager(
     )
 
     # =========================================================
-    # 15. REMOVE NaN / NaT
+    # 17. REMOVE NaN / NaT
     # =========================================================
 
     discrepancy_df = discrepancy_df.fillna("")
 
     # =========================================================
-    # 16. LOGGING
+    # 18. LOGGING
     # =========================================================
 
     logging.info(
